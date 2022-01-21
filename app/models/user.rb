@@ -6,7 +6,8 @@ class User < ApplicationRecord
   
   has_secure_password
   has_many :microposts
-  
+
+  # follow, follower
   has_many :relationships
   has_many :followings, through: :relationships, source: :follow
   has_many :reverse_of_relationship, class_name: 'Relationship', foreign_key: 'follow_id'
@@ -27,7 +28,26 @@ class User < ApplicationRecord
     self.followings.include?(other_user)
   end
   
-  def fees_microposts
+  def feed_microposts
     Micropost.where(user_id: self.following_ids + [self.id])
+  end
+  
+  # 投稿お気に入り機能
+  has_many :favorites, foreign_key: 'user_id'
+  has_many :favorite_microposts, through: :favorites, source: :micropost  #既に同名micopostsとの関係があるため別名
+  
+  def favorite(micropost)
+    unless self.favorite_microposts.exists?(id: micropost.id)
+      self.favorites.find_or_create_by(micropost_id: micropost.id)
+    end
+  end
+  
+  def unfavorite(micropost)
+    favorite = self.favorites.find_by(micropost_id: micropost.id)
+    favorite.destroy if favorite
+  end
+  
+  def likes?(micropost)
+    self.favorite_microposts.include?(micropost)
   end
 end
