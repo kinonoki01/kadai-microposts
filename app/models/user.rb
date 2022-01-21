@@ -33,7 +33,7 @@ class User < ApplicationRecord
   end
   
   # 投稿お気に入り機能
-  has_many :favorites, foreign_key: 'user_id'
+  has_many :favorites, dependent: :destroy
   has_many :favorite_microposts, through: :favorites, source: :micropost  #既に同名micopostsとの関係があるため別名
   
   def favorite(micropost)

@@ -4,6 +4,6 @@ class Micropost < ApplicationRecord
   belongs_to :user
   
   # 投稿お気に入り機能
-  has_many :favorites, foreign_key: 'micropost_id'
+  has_many :favorites, dependent: :destroy
   has_many :users, through: :favorites
 end
