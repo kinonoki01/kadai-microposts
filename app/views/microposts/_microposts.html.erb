@@ -1,28 +1,33 @@
 <% if microposts.any? %>
   <ul class="list-unstyled mt-2">
     <% microposts.each do |micropost| %>
-      <li class="d-flex">
-        <img class="rounded me-2 mb-5" src="<%= gravatar_url(micropost.user, { size: 64}) %>" alt="">
-        <div>
+      <li class="d-flex bg-white mb-3 p-2">
+        <div class="col-sm-2">
+          <img class="rounded me-2 mb-5" src="<%= gravatar_url(micropost.user, { size: 64}) %>" alt="">
+        </div>
+        <div class="col-sm-10">
           <div>
             <%= link_to micropost.user.name, micropost.user, class: 'text-decoration-none'%> <span class="text-muted">posted at <%= micropost.created_at %></span>
           </div>
           <div>
             <p><%= micropost.content %></p>
           </div>
-          <div class="btn-toolbar">
-            <div class="btn-group">
+          <div class="row">
+            <div class="col-sm-2">
               <%= render 'favorites/favorite_button', micropost: micropost %>
             </div>
-            <div class="btn-group mr-auto">
+            <div class="offset-sm-7 col-sm-2">
               <% if current_user == micropost.user %>
                 <%= link_to 'Delete', micropost, method: :delete, data: { confirm: 'You sure?' }, class: 'btn btn-danger btn-sm' %>
               <% end %>
             </div>
+            <div class="col-sm-1"></div>
           </div>
         </div>
       </li>
     <% end %>
   </ul>
-  <%== pagy_bootstrap_nav(@pagy) %>
+  <div class="d-flex justify-content-center">
+    <%== pagy_bootstrap_nav(@pagy)%>
+  </div>
 <% end %>
