@@ -1,7 +1,7 @@
 <% if users.any? %>
   <ul class="list-unstyled">
     <% users.each do |user| %>
-      <li class="d-flex bg-white mb-3 p-2">
+      <li class="mb-3 d-flex">
         <img class="rounded me-2" src="<%= gravatar_url(user, { size: 64 })%>" alt="">
         <div>
           <div>
@@ -14,7 +14,5 @@
       </li>
     <% end %>
   </ul>
-  <div class="d-flex justify-content-center">
-    <%== pagy_bootstrap_nav(@pagy)%>
-  </div>
+  <%== pagy_bootstrap_nav(@pagy)%>
 <% end %>
