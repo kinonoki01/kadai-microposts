@@ -33,13 +33,11 @@ class User < ApplicationRecord
   end
   
   # 投稿お気に入り機能
-  has_many :favorites, dependent: :destroy
+  has_many :favorites
   has_many :favorite_microposts, through: :favorites, source: :micropost  #既に同名micopostsとの関係があるため別名
   
   def favorite(micropost)
-    unless self.favorite_microposts.exists?(id: micropost.id)
-      self.favorites.find_or_create_by(micropost_id: micropost.id)
-    end
+    self.favorites.find_or_create_by(micropost_id: micropost.id)
   end
   
   def unfavorite(micropost)
