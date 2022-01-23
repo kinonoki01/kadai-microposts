@@ -2,7 +2,6 @@
   <div class="row">
     <aside class="col-sm-4">
       <%= form_with(model: @micropost) do |f| %>
-        <%= render 'layouts/error_messages', model: @micropost %>
         <div class="mb-3">
           <%= f.text_area :content, class: 'form-control', rows: 5 %>
         </div>
